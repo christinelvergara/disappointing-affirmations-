@@ -1,0 +1,2443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>have u finished yet?</title>
+<style>
+:root{--bg:#f4f1ea;--fg:#1f1d1a;--muted:#7a756b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#181714;--fg:#ece7dc;--muted:#8d877b}}
+:root[data-theme="dark"]{--bg:#181714;--fg:#ece7dc;--muted:#8d877b}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:Georgia,"Times New Roman",serif;display:flex;align-items:center;justify-content:center;padding:24px}
+main{max-width:34rem;width:100%}
+h1{font-size:clamp(1.6rem,5vw,2.4rem);font-weight:400;margin:0 0 .25em;letter-spacing:-.01em}
+.no{font-size:clamp(1.6rem,5vw,2.4rem);color:var(--muted);margin:0 0 2.2rem}
+.punch{margin-top:1.1rem}
+.aff{font-size:clamp(1.15rem,3.6vw,1.5rem);line-height:1.55;margin:0;font-style:italic}
+</style>
+</head>
+<body>
+<main>
+<h1>have u finished yet?</h1>
+<p class="no">no?</p>
+<p class="aff" id="aff"></p>
+<p class="aff punch" id="punch"></p>
+</main>
+<script>
+const bank=[
+[
+"Shoot for the stars.",
+"Because your earthly prospects aren't looking promising."
+],
+[
+"Success is just around the corner.",
+"Unfortunately, you've been walking in circles."
+],
+[
+"Follow your passion.",
+"It's probably the only thing willing to tolerate you."
+],
+[
+"The sky is the limit.",
+"And somehow you've managed to disappoint the atmosphere."
+],
+[
+"Every great achievement begins with a dream.",
+"Yours apparently ended there."
+],
+[
+"Nothing worth having comes easy.",
+"Which explains why you don't have much."
+],
+[
+"Believe in the impossible.",
+"You've already made incompetence look effortless."
+],
+[
+"The road to success is paved with hard work.",
+"So naturally, you've taken a different route."
+],
+[
+"Aim high.",
+"It'll make the disappointment more spectacular."
+],
+[
+"Fortune favours the bold.",
+"But even fortune has standards."
+],
+[
+"Success takes time.",
+"Though at this point, we should probably check whether it's coming at all."
+],
+[
+"Dream as though you'll live forever.",
+"Achieve as though you're on lunch break."
+],
+[
+"Every expert was once a beginner.",
+"Although most eventually improved."
+],
+[
+"The future belongs to those who believe in their dreams.",
+"So perhaps consider a more realistic future."
+],
+[
+"Great minds think alike.",
+"Which explains why nobody agrees with you."
+],
+[
+"Nothing can stand between you and success.",
+"Except your personality, habits, and decision-making."
+],
+[
+"A winner never quits.",
+"But sometimes quitting would save everyone a lot of time."
+],
+[
+"Your breakthrough is coming.",
+"Probably in the form of an uncomfortable realisation."
+],
+[
+"Keep your eyes on the prize.",
+"Because looking at your progress would be upsetting."
+],
+[
+"Success isn't measured by how often you fall.",
+"Lucky for you, because we'd run out of numbers."
+],
+[
+"The only way is up.",
+"You've certainly left yourself no other option."
+],
+[
+"A dream without a plan is just a wish.",
+"And yours is barely even that."
+],
+[
+"Make every moment count.",
+"Someone has to compensate for all the ones you've wasted."
+],
+[
+"Trust the process.",
+"Although the process has formally requested reassignment."
+],
+[
+"Be hungry for success.",
+"Because at this rate, you certainly won't be eating from it."
+],
+[
+"Love the person you're becoming.",
+"Someone has to."
+],
+[
+"Confidence comes from within.",
+"Which explains the supply shortage."
+],
+[
+"Beauty begins the moment you decide to be yourself.",
+"And ends when the lighting improves."
+],
+[
+"Accept yourself as you are.",
+"It's certainly easier than convincing anyone else to."
+],
+[
+"Never underestimate your worth.",
+"Leave that to the professionals."
+],
+[
+"Self-love is a journey.",
+"And you've somehow missed the connecting flight."
+],
+[
+"Know your value.",
+"Even clearance items have price tags."
+],
+[
+"Embrace your flaws.",
+"They're clearly not going anywhere."
+],
+[
+"Stand tall and be proud.",
+"It'll distract from the lack of actual achievements."
+],
+[
+"Your opinion matters.",
+"Just not necessarily to anyone involved."
+],
+[
+"Let your inner beauty shine.",
+"We're going to need all the help we can get."
+],
+[
+"Confidence is attractive.",
+"Unfortunately, delusion is not."
+],
+[
+"Never compare yourself to others.",
+"They've done nothing to deserve that."
+],
+[
+"Be comfortable in your own skin.",
+"It's not like anyone's offering to trade."
+],
+[
+"Recognise your strengths.",
+"This shouldn't take long."
+],
+[
+"Speak your truth.",
+"But perhaps lower the volume."
+],
+[
+"Hold your head high.",
+"Ignorance looks better from that angle."
+],
+[
+"Celebrate your individuality.",
+"Preferably somewhere private."
+],
+[
+"Remember that you matter.",
+"Even minor inconveniences matter."
+],
+[
+"Nobody is perfect.",
+"But some people are making a considerably stronger effort."
+],
+[
+"Be proud of how far you've come.",
+"Even if the distance is mostly imaginary."
+],
+[
+"Your presence is a gift.",
+"And apparently nobody kept the receipt."
+],
+[
+"Give yourself some credit.",
+"Nobody else has approved the application."
+],
+[
+"Never dim your light for others.",
+"Although a lower wattage might be appreciated."
+],
+[
+"Treat yourself like royalty.",
+"Specifically the kind that gets overthrown."
+],
+[
+"Growth takes time.",
+"But this is starting to look like a manufacturing defect."
+],
+[
+"Every setback is a setup for a comeback.",
+"Yours must be experiencing technical difficulties."
+],
+[
+"Healing isn't linear.",
+"Neither is your ability to make sensible decisions."
+],
+[
+"Progress is progress, no matter how small.",
+"Though yours may require a microscope."
+],
+[
+"Trust your journey.",
+"Because nobody else can make sense of the itinerary."
+],
+[
+"It's okay to make mistakes.",
+"But you've turned it into a subscription service."
+],
+[
+"Every day is a chance to improve.",
+"And every day you decline the invitation."
+],
+[
+"Change is inevitable.",
+"Improvement, apparently, is optional."
+],
+[
+"Be patient with yourself.",
+"Everyone else has already given up."
+],
+[
+"Mistakes are proof that you're trying.",
+"Or that you're remarkably consistent at being wrong."
+],
+[
+"The first step toward growth is awareness.",
+"So you're already facing quite a lengthy journey."
+],
+[
+"Let go of what no longer serves you.",
+"Starting with your confidence in your own judgment."
+],
+[
+"Life is about learning.",
+"And you've been repeating the same semester for years."
+],
+[
+"Take things one day at a time.",
+"The universe doesn't trust you with more."
+],
+[
+"Reinvent yourself.",
+"The current version has received poor reviews."
+],
+[
+"Small steps lead to big changes.",
+"Unless they're all in the wrong direction."
+],
+[
+"Be kind to your past self.",
+"Nobody knew it would turn out this badly."
+],
+[
+"Turn your pain into power.",
+"Or continue turning minor inconveniences into personality traits."
+],
+[
+"Acknowledge your progress.",
+"However theoretical it may be."
+],
+[
+"Tomorrow is another chance.",
+"Unfortunately, you're bringing the same brain."
+],
+[
+"The best lessons come from experience.",
+"So why are you still this bad at everything?"
+],
+[
+"Your past does not define you.",
+"But it has submitted some compelling evidence."
+],
+[
+"Trust yourself to figure things out.",
+"Despite the overwhelming historical evidence."
+],
+[
+"The strongest trees grow through storms.",
+"You've mostly just developed a dramatic lean."
+],
+[
+"Keep becoming the person you're meant to be.",
+"Although the prototype isn't inspiring confidence."
+],
+[
+"Love comes when you least expect it.",
+"So you're doing an excellent job preparing."
+],
+[
+"There's someone out there for everyone.",
+"Statistically, though, there must be exceptions."
+],
+[
+"Good things come to those who wait.",
+"But even your soulmate has started seeing other people."
+],
+[
+"The right people will appreciate you.",
+"Once they've exhausted their other options."
+],
+[
+"Never settle for less than you deserve.",
+"Although the market has spoken."
+],
+[
+"True love sees beyond imperfections.",
+"Yours would require industrial-grade equipment."
+],
+[
+"Surround yourself with people who lift you up.",
+"Because your personality certainly isn't doing the heavy lifting."
+],
+[
+"Communication is the key to every relationship.",
+"Which explains why yours keep changing the locks."
+],
+[
+"Be open to love.",
+"But perhaps don't lead with your entire personality."
+],
+[
+"Everyone deserves a second chance.",
+"You've somehow made it to the seventeenth."
+],
+[
+"The right person will love you for who you are.",
+"So you might want to reconsider who that is."
+],
+[
+"Love yourself before loving someone else.",
+"It's important to understand what you're asking them to endure."
+],
+[
+"Absence makes the heart grow fonder.",
+"And your friends have been conducting extensive research."
+],
+[
+"Friendship is a two-way street.",
+"Yet people keep taking the exit."
+],
+[
+"The best relationships bring out your true self.",
+"Which may explain the breakup."
+],
+[
+"Never chase someone who doesn't appreciate you.",
+"They're already running quite fast."
+],
+[
+"Your people will find you.",
+"Assuming they haven't read the reviews."
+],
+[
+"Give love without expecting anything in return.",
+"You've clearly mastered the second half."
+],
+[
+"Relationships require compromise.",
+"And being around you apparently requires a lot of it."
+],
+[
+"Everyone has something special to offer.",
+"Yours is an opportunity for character development."
+],
+[
+"First impressions aren't everything.",
+"Lucky for you, because the second ones aren't helping either."
+],
+[
+"Let people see the real you.",
+"But perhaps introduce them gradually."
+],
+[
+"Good friends accept your flaws.",
+"Exceptional friends somehow tolerate the entire collection."
+],
+[
+"Love is blind.",
+"And in your case, that's probably a medical necessity."
+],
+[
+"Be the reason someone smiles today.",
+"Even if it's because you finally left the room."
+],
+[
+"Hard work never goes unnoticed.",
+"Unfortunately, neither does incompetence."
+],
+[
+"Dress for the job you want.",
+"Although unemployment does seem to suit you."
+],
+[
+"Every great career starts somewhere.",
+"Yours appears to have started and ended in the same place."
+],
+[
+"Teamwork makes the dream work.",
+"Which explains why your team keeps asking you to work independently."
+],
+[
+"Work smarter, not harder.",
+"Although neither seems to be an option for you."
+],
+[
+"The early bird catches the worm.",
+"But you could wake up at 4 a.m. and still accomplish nothing."
+],
+[
+"A positive attitude can take you anywhere.",
+"Except through a performance review."
+],
+[
+"Success is 1% inspiration and 99% perspiration.",
+"You've somehow managed to contribute neither."
+],
+[
+"Find a job you love, and you'll never work a day in your life.",
+"Because your employer will eventually notice."
+],
+[
+"Every challenge is an opportunity to shine.",
+"And you've somehow turned yours into a power outage."
+],
+[
+"Leadership is about inspiring others.",
+"And you've inspired an entire department to update their résumés."
+],
+[
+"Your career is a marathon, not a sprint.",
+"Although you've been standing at the starting line for an alarming amount of time."
+],
+[
+"There is no 'I' in team.",
+"But there is one in liability, and HR knows exactly where to find you."
+],
+[
+"The secret to success is consistency.",
+"Which explains your impressive record of disappointing everyone."
+],
+[
+"Take pride in your work.",
+"Because nobody else is claiming it."
+],
+[
+"Opportunities are everywhere.",
+"And you've developed a remarkable talent for avoiding them."
+],
+[
+"Be the hardest worker in the room.",
+"Or at least stop being the reason everyone else has to work harder."
+],
+[
+"Your dedication will pay off.",
+"Just as soon as you find something worth dedicating yourself to."
+],
+[
+"Great leaders lead by example.",
+"And yours is a powerful example of what not to do."
+],
+[
+"Don't be afraid to ask questions.",
+"Although at some point, people will begin questioning your qualifications."
+],
+[
+"Every promotion starts with ambition.",
+"And ends when your manager remembers who you are."
+],
+[
+"A job well done is its own reward.",
+"Which is fortunate, because nobody's giving you a bonus."
+],
+[
+"Keep pushing your boundaries.",
+"Preferably toward a different department."
+],
+[
+"Efficiency is doing things right.",
+"Effectiveness is doing the right things. Congratulations on achieving neither."
+],
+[
+"Never stop learning.",
+"Your colleagues are begging you to start."
+],
+[
+"Money can't buy happiness.",
+"But your bank balance can't even afford disappointment."
+],
+[
+"The best investment you can make is in yourself.",
+"Although the returns have been historically disappointing."
+],
+[
+"A penny saved is a penny earned.",
+"Which makes your financial achievements relatively easy to calculate."
+],
+[
+"Financial freedom starts with discipline.",
+"So you may want to explore alternative arrangements."
+],
+[
+"Wealth is a mindset.",
+"And yours is apparently set to insufficient funds."
+],
+[
+"Money doesn't grow on trees.",
+"Which is unfortunate, because that's about the level of effort you were prepared to make."
+],
+[
+"Invest in your future.",
+"Although past performance suggests considerable risk."
+],
+[
+"Every millionaire started somewhere.",
+"And that's where the similarities end."
+],
+[
+"Good things come to those who save.",
+"So naturally, you're unfamiliar with the concept."
+],
+[
+"The richest people aren't always the happiest.",
+"And you've somehow managed to be neither."
+],
+[
+"Live within your means.",
+"Although that would require a lifestyle change bordering on archaeological."
+],
+[
+"Abundance is all around you.",
+"Just apparently never in your account."
+],
+[
+"Your financial future is in your hands.",
+"Which explains why it's filing for protection."
+],
+[
+"A budget is a roadmap to success.",
+"But you've been using yours as a suggestion box."
+],
+[
+"Never put all your eggs in one basket.",
+"Although in your case, it's just one egg and a concerning amount of debt."
+],
+[
+"The key to wealth is patience.",
+"And the key to your finances appears to be parental assistance."
+],
+[
+"Small savings add up over time.",
+"But so do your increasingly indefensible purchases."
+],
+[
+"Spend money on things that bring you joy.",
+"Which explains why your happiness has an overdraft fee."
+],
+[
+"Money is merely a tool.",
+"And you've demonstrated that even tools can be misused."
+],
+[
+"Your net worth doesn't define your self-worth.",
+"Fortunately, because both figures would be upsetting."
+],
+[
+"Think rich, act rich.",
+"And eventually your creditors will have some questions."
+],
+[
+"The road to financial independence begins with one step.",
+"Preferably away from the shopping cart."
+],
+[
+"Every dollar counts.",
+"Especially when you're down to your last three."
+],
+[
+"True wealth comes from within.",
+"Which is convenient, because it certainly isn't coming from your employment."
+],
+[
+"Believe in financial abundance.",
+"Because your banking app has been telling a very different story."
+],
+[
+"Knowledge is power.",
+"Which explains your remarkable lack of influence."
+],
+[
+"There's no such thing as a stupid question.",
+"Until you raise your hand."
+],
+[
+"The mind is a powerful thing.",
+"Yours just seems to be operating in energy-saving mode."
+],
+[
+"Wisdom comes with age.",
+"But apparently not automatically."
+],
+[
+"Think outside the box.",
+"Although we're still waiting for evidence that you've looked inside it."
+],
+[
+"Every problem has a solution.",
+"Except, perhaps, the problem of your decision-making."
+],
+[
+"Curiosity is the beginning of wisdom.",
+"But you've somehow turned it into a series of avoidable incidents."
+],
+[
+"Never stop asking why.",
+"It's the question everyone asks after hearing what you've done."
+],
+[
+"Intelligence isn't everything.",
+"Which is fortunate, because you haven't got much else to negotiate with."
+],
+[
+"A wise person learns from their mistakes.",
+"You've apparently decided to specialise in practical demonstrations."
+],
+[
+"Think before you speak.",
+"The silence would be a welcome improvement."
+],
+[
+"The more you know, the more you grow.",
+"Which explains the lack of visible development."
+],
+[
+"Common sense isn't always common.",
+"And you've taken that observation personally."
+],
+[
+"Every genius was misunderstood.",
+"But being misunderstood doesn't automatically make you a genius."
+],
+[
+"A sharp mind opens doors.",
+"Yours keeps pushing the ones marked PULL."
+],
+[
+"There's always room for improvement.",
+"In your case, we've reserved an entire building."
+],
+[
+"Critical thinking is an essential life skill.",
+"Which explains several of your life outcomes."
+],
+[
+"The smartest person in the room is the one who listens.",
+"And yet you insist on contributing."
+],
+[
+"Experience is the best teacher.",
+"Although you've been an exceptionally difficult student."
+],
+[
+"An open mind is a wonderful thing.",
+"But yours could benefit from a functioning filter."
+],
+[
+"Great ideas can come from anyone.",
+"So statistically, you're not completely out of the running."
+],
+[
+"Two heads are better than one.",
+"Particularly if neither belongs to you."
+],
+[
+"A little knowledge goes a long way.",
+"Which is impressive, considering how little you've been working with."
+],
+[
+"There's wisdom in knowing what you don't know.",
+"And your potential for wisdom is practically infinite."
+],
+[
+"Never underestimate the power of your mind.",
+"Although overestimating it has caused enough problems already."
+],
+[
+"Good luck comes to those who believe.",
+"But even luck has started avoiding eye contact with you."
+],
+[
+"The universe is working in your favour.",
+"Just apparently on a very flexible schedule."
+],
+[
+"When one door closes, another opens.",
+"Unless you're the reason the building went into lockdown."
+],
+[
+"Everything will fall into place.",
+"Although, given your history, probably directly onto your foot."
+],
+[
+"Trust that the universe has your back.",
+"Because it certainly isn't making eye contact."
+],
+[
+"What's meant for you will find you.",
+"Unfortunately, that includes consequences."
+],
+[
+"Every cloud has a silver lining.",
+"But yours appears to be a collection of unpaid invoices."
+],
+[
+"The stars are aligning for you.",
+"Mostly to spell out a warning."
+],
+[
+"Luck is what happens when preparation meets opportunity.",
+"Which explains why you've never met."
+],
+[
+"A blessing in disguise is still a blessing.",
+"Although yours has been wearing that disguise for an awfully long time."
+],
+[
+"Good fortune is coming your way.",
+"But your reputation may have prompted a detour."
+],
+[
+"The universe gives its toughest battles to its strongest soldiers.",
+"Although in your case, it may just enjoy the entertainment."
+],
+[
+"Your time will come.",
+"The question is whether anyone will still be waiting."
+],
+[
+"Some things are written in the stars.",
+"Yours appears to have been written in pencil by an unsupervised child."
+],
+[
+"Life has a funny way of working things out.",
+"And apparently you're the punchline."
+],
+[
+"Trust divine timing.",
+"Because your personal timing has been consistently disastrous."
+],
+[
+"Good things happen when you least expect them.",
+"So your permanent pessimism should be an advantage by now."
+],
+[
+"Everything happens when it's supposed to.",
+"Except your personal development, which is severely overdue."
+],
+[
+"The universe rewards good intentions.",
+"Although it may be waiting for some evidence of competence."
+],
+[
+"Your destiny is calling.",
+"And you've somehow managed to send it straight to voicemail."
+],
+[
+"Luck favours the prepared.",
+"Which must feel rather discriminatory to you."
+],
+[
+"The universe never gives you more than you can handle.",
+"Although it seems to have significantly overestimated your abilities."
+],
+[
+"When life gives you lemons, make lemonade.",
+"But you've somehow managed to burn the water."
+],
+[
+"The odds are always changing.",
+"And yet you've remained remarkably committed to being on the wrong side of them."
+],
+[
+"There's a reason things haven't worked out yet.",
+"And unfortunately, the common denominator keeps appearing in your mirror."
+],
+[
+"Happiness comes from within.",
+"Which explains why you've been having such trouble finding it."
+],
+[
+"Choose happiness every day.",
+"Although your decision-making history isn't encouraging."
+],
+[
+"A smile is the prettiest thing you can wear.",
+"Which is fortunate, given the rest of your wardrobe."
+],
+[
+"Count your blessings.",
+"This shouldn't take too long."
+],
+[
+"Every day is a gift.",
+"And you've been treating yours like an unwanted Christmas present."
+],
+[
+"Find joy in the little things.",
+"Because the big things clearly aren't working out."
+],
+[
+"Peace begins with a smile.",
+"And occasionally with you leaving the room."
+],
+[
+"Happiness is contagious.",
+"Which explains why everyone seems to recover when you leave."
+],
+[
+"Look on the bright side.",
+"It's probably the only side you haven't ruined yet."
+],
+[
+"A positive mindset changes everything.",
+"Except, apparently, your circumstances."
+],
+[
+"Don't worry, be happy.",
+"Although in your case, a little worrying might improve your judgment."
+],
+[
+"The secret to happiness is gratitude.",
+"So perhaps start by thanking everyone who's tolerated you."
+],
+[
+"Joy is found in the journey.",
+"Which is unfortunate, because yours looks like a delayed budget airline flight."
+],
+[
+"Surround yourself with positive energy.",
+"Assuming anyone positive is willing to stay."
+],
+[
+"Every sunrise brings new hope.",
+"And every sunset brings another disappointing progress report."
+],
+[
+"Happiness is a choice.",
+"And somehow you've managed to choose incorrectly again."
+],
+[
+"Find your happy place.",
+"Preferably somewhere that doesn't inconvenience the general public."
+],
+[
+"A grateful heart is a happy heart.",
+"Yours seems to be operating on a free trial."
+],
+[
+"Smile through the pain.",
+"It's the closest thing to a personality improvement you've attempted."
+],
+[
+"Focus on the good things in life.",
+"Even if you have to borrow examples from other people."
+],
+[
+"The happiest people appreciate what they have.",
+"Which might explain why you're so difficult to impress."
+],
+[
+"Life is too short to be unhappy.",
+"Yet you've somehow made it feel incredibly long."
+],
+[
+"Spread positivity wherever you go.",
+"Or at least stop spreading unnecessary complications."
+],
+[
+"Find beauty in every moment.",
+"Because your reflection isn't always going to cooperate."
+],
+[
+"Let happiness find you.",
+"You've demonstrated that actively searching isn't your strength."
+],
+[
+"What doesn't break you makes you stronger.",
+"Although you've mostly just become more difficult to deal with."
+],
+[
+"Tough times don't last, tough people do.",
+"And apparently so do your terrible habits."
+],
+[
+"Fall seven times, stand up eight.",
+"Or consider why you keep falling in the first place."
+],
+[
+"Keep fighting the good fight.",
+"Although nobody's entirely sure what you're fighting for."
+],
+[
+"Diamonds are made under pressure.",
+"But so are plumbing leaks, and you're looking more like the latter."
+],
+[
+"Every scar tells a story.",
+"Yours mostly tell people to read the instructions next time."
+],
+[
+"Strength comes from struggle.",
+"Which makes your continued incompetence genuinely fascinating."
+],
+[
+"The comeback is always stronger than the setback.",
+"Unless you're personally responsible for both."
+],
+[
+"Never let adversity define you.",
+"You've already got enough questionable defining characteristics."
+],
+[
+"A smooth sea never made a skilled sailor.",
+"But you've been capsizing in the bathtub."
+],
+[
+"Resilience means getting back up.",
+"Although at this point, the floor might be trying to tell you something."
+],
+[
+"Your struggles are shaping you into something greater.",
+"The quality-control department remains unconvinced."
+],
+[
+"Keep your chin up.",
+"It's the only part of your performance that's consistently elevated."
+],
+[
+"You're stronger than your circumstances.",
+"Which says remarkably little about either."
+],
+[
+"Pressure creates greatness.",
+"Or, in your case, a lengthy incident report."
+],
+[
+"Courage isn't the absence of fear.",
+"It's apparently the absence of understanding the consequences."
+],
+[
+"Every obstacle is a stepping stone.",
+"But you've been using yours as furniture."
+],
+[
+"Don't let failure stop you.",
+"Though a brief consultation with common sense wouldn't hurt."
+],
+[
+"The strongest people have survived the hardest battles.",
+"You've survived mostly self-inflicted administrative problems."
+],
+[
+"Keep moving forward.",
+"The people behind you would appreciate some distance."
+],
+[
+"Adversity reveals character.",
+"And yours has raised several concerns."
+],
+[
+"When the going gets tough, the tough get going.",
+"Which explains why everyone else has already left."
+],
+[
+"You can't control the storm, only how you respond.",
+"And somehow you've chosen to open all the windows."
+],
+[
+"Rise above your challenges.",
+"Although clearing the very low bar you've set would be a start."
+],
+[
+"The darkest hour comes before dawn.",
+"But your personal forecast is looking unusually complicated."
+],
+[
+"Your body is a temple.",
+"Although the maintenance committee appears to have resigned."
+],
+[
+"Health is wealth.",
+"Which explains why your lifestyle choices are giving financial-crisis energy."
+],
+[
+"Listen to your body.",
+"It's been filing complaints for years."
+],
+[
+"Rest is productive too.",
+"Which is convenient, because you've already mastered doing nothing."
+],
+[
+"Self-care isn't selfish.",
+"But you've somehow found a way to make it everyone else's problem."
+],
+[
+"A healthy mind is a happy mind.",
+"Although yours seems to be running thirty-seven unnecessary background applications."
+],
+[
+"Treat your body with kindness.",
+"It's already endured the consequences of your decisions."
+],
+[
+"Every step counts.",
+"Even the ones you take toward the fridge for the sixth time."
+],
+[
+"Wellness is a lifestyle.",
+"Not an expensive water bottle and three motivational Instagram stories."
+],
+[
+"Find balance in your life.",
+"Because your current arrangement looks like a shopping trolley with one broken wheel."
+],
+[
+"Take time to recharge.",
+"Although we should probably check whether the battery is still functional."
+],
+[
+"Small healthy habits make a big difference.",
+"Unlike your current habit of buying equipment and calling it progress."
+],
+[
+"Nourish your mind, body, and soul.",
+"All three have submitted separate requests for better management."
+],
+[
+"Movement is medicine.",
+"But walking away from your responsibilities doesn't count as cardio."
+],
+[
+"Prioritise your wellbeing.",
+"Someone has to, since you've made it everyone else's emergency."
+],
+[
+"A little self-care goes a long way.",
+"But purchasing another scented candle won't repair your life."
+],
+[
+"Be gentle with yourself.",
+"Reality has already taken a considerably less delicate approach."
+],
+[
+"The best project you'll ever work on is yourself.",
+"Although the contractor has significantly underestimated the renovation costs."
+],
+[
+"Invest in your health today.",
+"Because your future self has already contacted customer service."
+],
+[
+"A fresh mind brings fresh perspectives.",
+"Yours keeps bringing the same questionable conclusions."
+],
+[
+"Slow down and enjoy the moment.",
+"Your poor decisions will still be waiting when you get back."
+],
+[
+"Make time for yourself.",
+"It's not as though your social calendar is putting up much resistance."
+],
+[
+"Find your centre.",
+"You've been spinning in circles long enough to make everyone dizzy."
+],
+[
+"Take a deep breath.",
+"It's the most productive thing you've done all morning."
+],
+[
+"Your wellbeing matters.",
+"Especially to the people who have to deal with you when it deteriorates."
+],
+[
+"Good vibes only.",
+"Which explains why you keep getting excluded."
+],
+[
+"Main character energy.",
+"Unfortunately, the audience is rooting for the supporting cast."
+],
+[
+"Romanticise your life.",
+"Because the documentary version would be deeply concerning."
+],
+[
+"Protect your peace.",
+"Although most of the chaos has been traced back to you."
+],
+[
+"Stay in your lane.",
+"Particularly if it leads away from positions of responsibility."
+],
+[
+"Manifest your dreams.",
+"Because practical execution clearly isn't your specialty."
+],
+[
+"Be iconic.",
+"Although being remembered for the wrong reasons still technically counts."
+],
+[
+"Know your worth, then add tax.",
+"But perhaps check whether there's any demand first."
+],
+[
+"Let them underestimate you.",
+"It's considerably less embarrassing than letting them find out."
+],
+[
+"Never chase, always attract.",
+"Though your current strategy appears to be repelling both."
+],
+[
+"Protect your energy.",
+"Especially since you've contributed so little of it to anything useful."
+],
+[
+"Be the plot twist.",
+"Unfortunately, you're the one that makes viewers stop watching."
+],
+[
+"Trust the glow-up.",
+"Although we've been waiting so long that the lights have started flickering."
+],
+[
+"Live your best life.",
+"It's a shame this is what yours looks like."
+],
+[
+"Keep your circle small.",
+"Although yours seems to have made that decision without consulting you."
+],
+[
+"Let your success make the noise.",
+"Which explains the remarkable silence."
+],
+[
+"Stay humble.",
+"Your accomplishments have made that exceptionally easy."
+],
+[
+"Don't let anyone steal your sparkle.",
+"Although glitter is difficult to remove and nobody wants it anyway."
+],
+[
+"Be the CEO of your own life.",
+"Shareholders are demanding an emergency meeting."
+],
+[
+"Turn your dreams into reality.",
+"Or continue turning your reality into a cautionary LinkedIn post."
+],
+[
+"Make yourself a priority.",
+"Because everyone else seems to have placed you considerably lower."
+],
+[
+"The only competition is yourself.",
+"And somehow you're still losing."
+],
+[
+"Create a life you don't need a vacation from.",
+"Although your coworkers would probably appreciate you taking one."
+],
+[
+"Stay authentic.",
+"But perhaps don't make authenticity your only selling point."
+],
+[
+"The best revenge is success.",
+"Which explains why your enemies have been sleeping so peacefully."
+],
+[
+"Age is just a number.",
+"Unfortunately, so is your credit score."
+],
+[
+"Life begins at thirty.",
+"Which gives you a few more years to figure out what went wrong with the first attempt."
+],
+[
+"Growing older means growing wiser.",
+"Although you've managed to disprove that rather convincingly."
+],
+[
+"Adulthood is about making your own decisions.",
+"Which explains why nobody lets you make theirs."
+],
+[
+"Home is where the heart is.",
+"And apparently where all your unfinished responsibilities have accumulated."
+],
+[
+"Every milestone deserves celebrating.",
+"Especially when expectations have been adjusted this far downward."
+],
+[
+"It's never too late to get your life together.",
+"Although it's becoming increasingly impressive how long you've avoided it."
+],
+[
+"With age comes experience.",
+"And in your case, an extensive collection of preventable mistakes."
+],
+[
+"Life is what you make of it.",
+"Which makes this situation considerably more embarrassing."
+],
+[
+"The best years are still ahead.",
+"Because the ones behind you have set an extraordinarily low standard."
+],
+[
+"Independence is a beautiful thing.",
+"Although your parents might disagree about how successfully you've achieved it."
+],
+[
+"Every adult is just figuring things out.",
+"But most have at least figured out laundry."
+],
+[
+"Maturity comes with responsibility.",
+"Which explains why it keeps passing you by."
+],
+[
+"There's no timeline for success.",
+"Which is fortunate, because yours would have been reported missing."
+],
+[
+"Your twenties are for making mistakes.",
+"But you've been treating them like a lifelong subscription."
+],
+[
+"A fresh chapter begins today.",
+"Although the previous twelve have raised serious concerns about the author."
+],
+[
+"Build the life you've always wanted.",
+"But perhaps consult someone who knows what they're doing."
+],
+[
+"Life gets better with age.",
+"Unfortunately, that isn't a legally binding guarantee."
+],
+[
+"Every birthday is another blessing.",
+"And another year of people pretending they're impressed."
+],
+[
+"Be the adult you needed as a child.",
+"Although your childhood self might request a different guardian."
+],
+[
+"It's okay not to have everything figured out.",
+"But having absolutely nothing figured out is becoming a bold choice."
+],
+[
+"Your life is unfolding exactly as it should.",
+"Which raises some uncomfortable questions about the plan."
+],
+[
+"Take responsibility for your future.",
+"The people currently cleaning up your past would appreciate it."
+],
+[
+"Nobody has life completely figured out.",
+"But you've somehow managed to be especially far from the answer."
+],
+[
+"The world is full of possibilities.",
+"And you've dedicated your adulthood to exploring the worst ones."
+],
+[
+"Family is forever.",
+"Which is unfortunate for everyone involved."
+],
+[
+"Blood is thicker than water.",
+"But apparently not thick enough to prevent your relatives from discussing you privately."
+],
+[
+"A mother's love is unconditional.",
+"Although yours has been testing the terms and conditions."
+],
+[
+"There's no place like home.",
+"Particularly when you've been asked not to return to other places."
+],
+[
+"Family will always have your back.",
+"Even if they've stopped defending your decisions."
+],
+[
+"Good friends are hard to find.",
+"And yours are becoming increasingly difficult to contact."
+],
+[
+"Laughter is the best medicine.",
+"Which explains why your family laughs whenever you announce another plan."
+],
+[
+"The people who love you will always support you.",
+"Though they've started requesting supporting documentation."
+],
+[
+"True friendship stands the test of time.",
+"Yours seems to be undergoing an unusually aggressive stress test."
+],
+[
+"Home is where you belong.",
+"Mostly because your relatives haven't figured out how to return you."
+],
+[
+"Cherish the people who stick around.",
+"They're clearly operating with information the rest of us don't have."
+],
+[
+"Everyone has a special place in someone's heart.",
+"Yours may be in the section reserved for mild irritation."
+],
+[
+"Family makes life beautiful.",
+"And you've certainly made it interesting for the family."
+],
+[
+"A good friend is worth their weight in gold.",
+"Which makes your current market valuation rather unfortunate."
+],
+[
+"Love means accepting people as they are.",
+"And your loved ones deserve recognition for their extraordinary commitment."
+],
+[
+"Make memories that last a lifetime.",
+"Although your relatives are already trying to forget several."
+],
+[
+"Friendship is built on trust.",
+"Which explains why nobody lets you organise the group holiday anymore."
+],
+[
+"The best gift you can give is your presence.",
+"Although a gift receipt would be appreciated."
+],
+[
+"There's strength in numbers.",
+"Which explains why your friends prefer meeting without you."
+],
+[
+"A family that laughs together stays together.",
+"Although the laughter tends to begin after you leave."
+],
+[
+"Good company makes everything better.",
+"Which may explain the sudden improvement whenever you're unavailable."
+],
+[
+"Everyone needs someone to believe in them.",
+"And you've certainly made that an ambitious assignment."
+],
+[
+"The bonds of friendship are unbreakable.",
+"Unless repeatedly exposed to your personality."
+],
+[
+"True friends tell you what you need to hear.",
+"Which explains why you've started avoiding their calls."
+],
+[
+"The greatest treasure in life is the people around you.",
+"And they're starting to wonder whether they're being held hostage."
+],
+[
+"Education is the key to success.",
+"Although you've somehow managed to lose both the key and the instructions."
+],
+[
+"Knowledge opens doors.",
+"But your grades suggest you may need to use the service entrance."
+],
+[
+"Every student has the potential to succeed.",
+"Some just make the evidence exceptionally difficult to locate."
+],
+[
+"Study hard and the results will follow.",
+"Although in your case, they may be following at a considerable distance."
+],
+[
+"A degree is proof of dedication.",
+"Not necessarily comprehension, as you've demonstrated."
+],
+[
+"Never be afraid to make mistakes.",
+"But perhaps stop submitting them for grading."
+],
+[
+"Learning is a lifelong journey.",
+"Which is fortunate, because graduation clearly didn't finish the job."
+],
+[
+"The pen is mightier than the sword.",
+"Although yours has mostly been used to write incorrect answers."
+],
+[
+"Every question brings you closer to understanding.",
+"Except the ones you ask after the lecturer has explained it three times."
+],
+[
+"Hard work beats talent when talent doesn't work hard.",
+"Which is unfortunate when neither is particularly evident."
+],
+[
+"Exams don't define your intelligence.",
+"Although yours have submitted some compelling arguments."
+],
+[
+"A good education is priceless.",
+"Which makes it especially tragic how much yours cost."
+],
+[
+"There's no shame in asking for help.",
+"Although your tutor has started charging an emotional inconvenience fee."
+],
+[
+"The more you read, the more you know.",
+"And somehow you've managed to remain remarkably unaffected."
+],
+[
+"Success is the sum of small efforts repeated daily.",
+"So perhaps start making one."
+],
+[
+"Every failure brings you closer to success.",
+"At this rate, you should have arrived several years ago."
+],
+[
+"The pursuit of knowledge is noble.",
+"Although your approach has been more of a leisurely stroll."
+],
+[
+"Believe in the power of education.",
+"Because your academic transcript isn't doing much to inspire confidence."
+],
+[
+"Practice makes perfect.",
+"But you've provided strong evidence that exceptions exist."
+],
+[
+"The classroom is a place for growth.",
+"And you've apparently been attending purely for the air-conditioning."
+],
+[
+"A curious mind is a brilliant mind.",
+"Unless all its curiosity is directed toward avoiding assignments."
+],
+[
+"Your grades don't determine your future.",
+"But your study habits are certainly making suggestions."
+],
+[
+"Learning from failure is essential.",
+"And you've accumulated enough material for an entire curriculum."
+],
+[
+"Every great thinker started as a student.",
+"Which is where the comparison becomes increasingly difficult to defend."
+],
+[
+"Never stop pursuing knowledge.",
+"It's had enough of a head start already."
+],
+[
+"Patience is a virtue.",
+"But even patience has begun losing patience with you."
+],
+[
+"Every choice shapes your future.",
+"Which explains why yours looks like it was assembled without instructions."
+],
+[
+"Trust your instincts.",
+"Although they've been wrong often enough to warrant professional supervision."
+],
+[
+"Listen to your heart.",
+"Because your brain has clearly been taking extended leave."
+],
+[
+"The right decision isn't always the easiest.",
+"Which explains why you've never accidentally made one."
+],
+[
+"Good judgment comes from experience.",
+"And experience comes from bad judgment. You must be extraordinarily wise by now."
+],
+[
+"Take the leap of faith.",
+"Although someone should probably inspect the landing area first."
+],
+[
+"Everything is a matter of perspective.",
+"But there's no flattering angle for this."
+],
+[
+"Choose your battles wisely.",
+"Or continue losing arguments nobody asked you to start."
+],
+[
+"Follow your intuition.",
+"It has an impressive record of leading you directly into consequences."
+],
+[
+"The grass is always greener on the other side.",
+"Particularly because you've been neglecting your own lawn."
+],
+[
+"When in doubt, trust yourself.",
+"Although consulting literally anyone else might improve the odds."
+],
+[
+"Every decision is an opportunity.",
+"To discover an entirely new way to disappoint yourself."
+],
+[
+"Take your time making important choices.",
+"You've already demonstrated what happens when you don't."
+],
+[
+"Life is full of difficult decisions.",
+"And you've somehow managed to make the easy ones difficult too."
+],
+[
+"Learn to trust the process.",
+"Although yours appears to have been designed by an unsupervised intern."
+],
+[
+"The path you choose is yours alone.",
+"Which is reassuring, because nobody else wants responsibility for it."
+],
+[
+"Think twice before making a decision.",
+"Once clearly hasn't been sufficient."
+],
+[
+"It's okay to change your mind.",
+"Particularly when the original thought was that bad."
+],
+[
+"Every action has a consequence.",
+"And yours seem to have developed a loyalty programme."
+],
+[
+"Freedom means having the power to choose.",
+"And you've used that power with astonishing irresponsibility."
+],
+[
+"Good things are worth waiting for.",
+"But perhaps stop using that as an excuse to accomplish nothing."
+],
+[
+"There are no wrong turns, only unexpected destinations.",
+"Although you've arrived at some impressively terrible places."
+],
+[
+"Take control of your choices.",
+"Because leaving them to chance has somehow produced better results."
+],
+[
+"At the end of the day, you are responsible for your own happiness.",
+"Which explains why the position has remained vacant."
+],
+[
+"A smile can light up a room.",
+"And yours can make everyone suddenly remember an appointment."
+],
+[
+"Be the life of the party.",
+"Or continue being the reason people leave early."
+],
+[
+"First impressions last forever.",
+"Which explains why you rarely get a second invitation."
+],
+[
+"Charisma opens doors.",
+"And your personality has apparently been changing the locks."
+],
+[
+"A little kindness goes a long way.",
+"Which is fortunate, because you haven't got much to spare."
+],
+[
+"Let your personality shine.",
+"But perhaps warn people to bring sunglasses and lower their expectations."
+],
+[
+"Good manners cost nothing.",
+"And somehow you've still managed to avoid investing in them."
+],
+[
+"The best conversations come naturally.",
+"Which explains why yours feel like mandatory workplace training."
+],
+[
+"Be unforgettable.",
+"Although there's a difference between memorable and traumatic."
+],
+[
+"A good sense of humour is attractive.",
+"Which makes your continued singleness even more concerning."
+],
+[
+"Speak from the heart.",
+"Because speaking from your brain hasn't produced much worth hearing."
+],
+[
+"Everyone has a unique personality.",
+"Yours just happens to require a warning label."
+],
+[
+"Be someone people look forward to seeing.",
+"Rather than someone they check the hallway for."
+],
+[
+"Leave people better than you found them.",
+"Although relief technically counts as improvement."
+],
+[
+"Authenticity attracts the right people.",
+"And apparently yours attracts absolutely nobody."
+],
+[
+"Make a lasting impression.",
+"Preferably one that doesn't require an apology afterward."
+],
+[
+"Your energy speaks before you do.",
+"And unfortunately, it's already made everyone uncomfortable."
+],
+[
+"Be the kind of person you'd want to meet.",
+"Which may require becoming an entirely different person."
+],
+[
+"Good listeners make great friends.",
+"Perhaps that's why people keep asking you to stop talking."
+],
+[
+"The world needs more people like you.",
+"Said absolutely nobody at the planning meeting."
+],
+[
+"Confidence is contagious.",
+"But whatever you're spreading seems to be causing people to keep their distance."
+],
+[
+"A magnetic personality draws people in.",
+"Yours appears to have the polarity reversed."
+],
+[
+"Treat everyone like they matter.",
+"Even if you've personally given them reasons to question your judgment."
+],
+[
+"The right words can change someone's day.",
+"And yours have inspired several people to seek silence."
+],
+[
+"Be remembered for your kindness.",
+"Because your competence certainly isn't making the shortlist."
+],
+[
+"Beauty is in the eye of the beholder.",
+"So perhaps consider finding a beholder with very poor eyesight."
+],
+[
+"True beauty comes from within.",
+"Which is unfortunate, because we've already discussed your personality."
+],
+[
+"Everyone is beautiful in their own way.",
+"And yours is apparently a closely guarded secret."
+],
+[
+"Confidence is the best accessory.",
+"But even that can't save every outfit."
+],
+[
+"Dress to impress.",
+"Although at this point, simply dressing appropriately would be progress."
+],
+[
+"A glow-up starts from within.",
+"Which explains why yours has been delayed indefinitely."
+],
+[
+"Ageing is a privilege.",
+"Although your skincare routine appears to consider it a personal attack."
+],
+[
+"Beauty fades, but character lasts forever.",
+"So you're facing a rather unfortunate long-term investment."
+],
+[
+"Wear whatever makes you feel beautiful.",
+"Just don't expect the feeling to be universally shared."
+],
+[
+"The most attractive quality is confidence.",
+"Which is unfortunate when yours is completely unsupported by evidence."
+],
+[
+"A smile is your best feature.",
+"And the competition wasn't particularly fierce."
+],
+[
+"Love the skin you're in.",
+"Because the exchange policy expired years ago."
+],
+[
+"Fashion is about expressing yourself.",
+"And yours has been expressing several cries for help."
+],
+[
+"Beauty is only skin deep.",
+"But somehow your problems have managed to reach every layer."
+],
+[
+"Your imperfections make you unique.",
+"Although you've been remarkably generous with them."
+],
+[
+"Natural beauty is timeless.",
+"And yours is apparently taking its time."
+],
+[
+"Every face tells a story.",
+"Yours seems to be a cautionary tale about sleep deprivation and poor decisions."
+],
+[
+"Look good, feel good.",
+"Which explains why you've been struggling with both."
+],
+[
+"The right outfit can change your life.",
+"Although yours would need to come with a new identity."
+],
+[
+"There's beauty in simplicity.",
+"Which is fortunate, because complexity has never been your strength."
+],
+[
+"Embrace your natural features.",
+"They've certainly had to embrace you."
+],
+[
+"A little effort goes a long way.",
+"Which makes your current appearance an interesting statement about effort."
+],
+[
+"Never let anyone tell you you're not beautiful.",
+"They'll probably find a more tactful way to phrase it."
+],
+[
+"Beauty standards are unrealistic.",
+"But even the realistic ones seem to be giving you trouble."
+],
+[
+"The most beautiful thing you can be is yourself.",
+"Although there's still time to reconsider."
+],
+[
+"Respect is earned, not given.",
+"Which explains the current shortage."
+],
+[
+"Actions speak louder than words.",
+"And yours have been filing formal complaints against your character."
+],
+[
+"A good reputation takes years to build.",
+"And you've managed to destroy yours with remarkable efficiency."
+],
+[
+"Let your achievements speak for themselves.",
+"Although the silence is becoming uncomfortable."
+],
+[
+"Be someone others can depend on.",
+"Even if it's only to make things more complicated."
+],
+[
+"Your legacy is what you leave behind.",
+"And so far, it's mostly unfinished tasks and confused colleagues."
+],
+[
+"Make your mark on the world.",
+"Although permanent damage wasn't what we had in mind."
+],
+[
+"Character is what you do when nobody's watching.",
+"Which explains why people have started checking the security cameras."
+],
+[
+"Honesty is the best policy.",
+"Particularly when explaining why you're no longer in charge."
+],
+[
+"Be a person of your word.",
+"Although perhaps start by saying fewer things."
+],
+[
+"Trust takes years to build.",
+"And you've turned destroying it into a weekend activity."
+],
+[
+"Great people inspire greatness in others.",
+"You've mostly inspired contingency plans."
+],
+[
+"Leave a legacy worth remembering.",
+"Preferably one that doesn't require a legal disclaimer."
+],
+[
+"The measure of a person is their character.",
+"Which explains why nobody wants to publish your results."
+],
+[
+"Be the bigger person.",
+"Because being the better person has clearly been a struggle."
+],
+[
+"Your reputation precedes you.",
+"Which explains why the room goes quiet before you enter."
+],
+[
+"Integrity means doing the right thing.",
+"Which must be fascinating to learn about for the first time."
+],
+[
+"Be a role model for others.",
+"Specifically in presentations about avoidable mistakes."
+],
+[
+"The respect you give is the respect you receive.",
+"And suddenly the numbers make sense."
+],
+[
+"Never compromise your values.",
+"Although identifying a few would be a promising first step."
+],
+[
+"Stand up for what you believe in.",
+"But perhaps check whether it's factually correct first."
+],
+[
+"A person's true worth is measured by their actions.",
+"Which makes your self-assessment rather optimistic."
+],
+[
+"Lead with integrity.",
+"Or at least stop leaving a paper trail."
+],
+[
+"Be remembered for making a difference.",
+"Although people are still calculating the cost of yours."
+],
+[
+"Greatness isn't about recognition.",
+"Which is convenient, because nobody recognises your contributions."
+],
+[
+"If at first you don't succeed, try, try again.",
+"Although eventually someone should probably intervene."
+],
+[
+"Winners never quit, and quitters never win.",
+"But there's a third category, and you've been exploring it extensively."
+],
+[
+"Aim for excellence.",
+"Because mediocrity has already filed a restraining order against you."
+],
+[
+"The harder you work, the luckier you get.",
+"Which explains your astonishing run of misfortune."
+],
+[
+"Every champion was once a contender.",
+"Although not every contender should have entered the competition."
+],
+[
+"No pain, no gain.",
+"But you've managed to experience plenty of the former without troubling the latter."
+],
+[
+"Greatness requires sacrifice.",
+"And apparently everyone around you has been making them."
+],
+[
+"A thousand-mile journey starts with a single step.",
+"And you've somehow managed to trip over the welcome mat."
+],
+[
+"The only way to fail is to stop trying.",
+"Which makes your continued failures an impressive technical achievement."
+],
+[
+"Go big or go home.",
+"Although several people have been encouraging the second option."
+],
+[
+"Success doesn't happen overnight.",
+"But failure seems to have no trouble fitting into your schedule."
+],
+[
+"The difference between ordinary and extraordinary is that little extra.",
+"And you've apparently been struggling with the ordinary part."
+],
+[
+"Push yourself beyond your limits.",
+"Although your limits seem to be located unusually close to the starting line."
+],
+[
+"Never accept defeat.",
+"Even if defeat has already moved in and changed the curtains."
+],
+[
+"Your only competition is who you were yesterday.",
+"And yesterday's version has somehow filed a complaint about unfair standards."
+],
+[
+"Keep climbing until you reach the top.",
+"Although the escalator has been out of order since you arrived."
+],
+[
+"The road to greatness is never easy.",
+"But yours appears to be a cul-de-sac."
+],
+[
+"Success favours those who take risks.",
+"Though there's a difference between calculated risks and whatever you've been doing."
+],
+[
+"Excellence is a habit.",
+"Which explains why it hasn't made an appearance in your routine."
+],
+[
+"Don't fear failure, fear never trying.",
+"Although given your results, both fears seem reasonable."
+],
+[
+"Nothing ventured, nothing gained.",
+"And somehow you've managed to venture everything and gain a cautionary tale."
+],
+[
+"Champions are made when nobody is watching.",
+"And you're living proof that nobody watching doesn't guarantee quality."
+],
+[
+"The greatest victories come after the hardest battles.",
+"But yours seem to end with a participation certificate and an apology."
+],
+[
+"Never give up on your dreams.",
+"Even if your dreams have already given up on you."
+],
+[
+"The best is yet to come.",
+"Which is less a promise and more a desperate hope at this point."
+],
+[
+"The best things in life are worth waiting for.",
+"Although at this point, even your opportunities have started collecting retirement benefits."
+],
+[
+"Shoot for the moon.",
+"Because even the stars deserve some distance from you."
+],
+[
+"Nothing is impossible.",
+"Except apparently getting you to understand basic instructions."
+],
+[
+"Where there's a will, there's a way.",
+"And where there's you, there's usually an investigation."
+],
+[
+"Every dog has its day.",
+"Yours appears to have been cancelled due to lack of public interest."
+],
+[
+"Good things come to those who wait.",
+"But eventually you have to consider that they're deliberately avoiding you."
+],
+[
+"A journey of a thousand miles begins with one step.",
+"And yours somehow resulted in an insurance claim."
+],
+[
+"The early bird gets the worm.",
+"But the second mouse gets the cheese, and you're somehow neither."
+],
+[
+"Practice makes perfect.",
+"Although your continued existence is a compelling argument against that theory."
+],
+[
+"When one door closes, another opens.",
+"But in your case, they're mostly emergency exits."
+],
+[
+"Every rose has its thorn.",
+"And you've somehow managed to be the thorn without the rose."
+],
+[
+"All that glitters is not gold.",
+"And all that confidence is apparently not competence."
+],
+[
+"Rome wasn't built in a day.",
+"But given your work ethic, it wouldn't have been built at all."
+],
+[
+"Actions speak louder than words.",
+"And yours have been screaming for adult supervision."
+],
+[
+"Time heals all wounds.",
+"Except perhaps the embarrassment of having known you."
+],
+[
+"The pen is mightier than the sword.",
+"Although yours has mostly been used to sign apology letters."
+],
+[
+"A picture is worth a thousand words.",
+"And yours appears to be worth a thousand concerns."
+],
+[
+"Two wrongs don't make a right.",
+"But you've been conducting extensive research into whether three might."
+],
+[
+"Better late than never.",
+"Although in your case, never was beginning to look preferable."
+],
+[
+"There's no time like the present.",
+"To reconsider absolutely everything you've been doing."
+],
+[
+"Don't put all your eggs in one basket.",
+"Especially when you've already demonstrated an inability to carry the basket."
+],
+[
+"Every cloud has a silver lining.",
+"But yours appears to have been repossessed."
+],
+[
+"Fortune favours the brave.",
+"But it seems to have mistaken your recklessness for a cry for help."
+],
+[
+"A watched pot never boils.",
+"And an unwatched you somehow manages to set the kitchen on fire."
+],
+[
+"If life gives you lemons, make lemonade.",
+"Although you seem more likely to complain that they're not oranges."
+],
+[
+"Have faith in yourself.",
+"Because at this point, evidence isn't going to help."
+],
+[
+"Miracles happen every day.",
+"And honestly, your continued employment might qualify."
+],
+[
+"Hope is the last thing to die.",
+"Which explains why yours has been looking increasingly exhausted."
+],
+[
+"Believe that better days are coming.",
+"Because your current ones have been difficult to defend."
+],
+[
+"There's always a reason to keep smiling.",
+"Sometimes it's because other people have it worse. Usually after meeting you."
+],
+[
+"The universe believes in you.",
+"Although it's beginning to reconsider its investment."
+],
+[
+"Faith can move mountains.",
+"But apparently not you from the couch."
+],
+[
+"Never lose hope.",
+"It's the only thing you've managed to hold onto without breaking."
+],
+[
+"Everything will work out in the end.",
+"Although nobody specified that it would work out in your favour."
+],
+[
+"The sun will shine again.",
+"And you'll still somehow find a way to stand in the shade."
+],
+[
+"Believe in second chances.",
+"You've practically built an entire personality around needing them."
+],
+[
+"Keep your hopes high.",
+"It's important that at least one thing about you is."
+],
+[
+"Tomorrow will be better.",
+"Statistically, you can't keep getting everything wrong forever. Probably."
+],
+[
+"Have faith in the process.",
+"Although the process has requested a change of personnel."
+],
+[
+"Every new beginning comes from another beginning's end.",
+"And you've certainly developed a talent for ending things prematurely."
+],
+[
+"The impossible is just something nobody has done yet.",
+"Much like successfully explaining accountability to you."
+],
+[
+"Trust that everything is happening for your highest good.",
+"Although your highest good seems to have remarkably low standards."
+],
+[
+"A little hope can change everything.",
+"Except the consequences of your previous decisions."
+],
+[
+"The future is full of promise.",
+"Although yours appears to have been written by someone with a history of dishonesty."
+],
+[
+"Your dreams are valid.",
+"Unfortunately, validity and feasibility are two entirely different departments."
+],
+[
+"Believe that you deserve good things.",
+"Even if the evidence presented so far has been inconclusive."
+],
+[
+"The darkest nights produce the brightest stars.",
+"Although you've mostly been producing questionable decisions after midnight."
+],
+[
+"Something wonderful is coming.",
+"And with any luck, it won't involve your participation."
+],
+[
+"Hold onto your dreams.",
+"Because reality has made it abundantly clear that it doesn't want them."
+],
+[
+"Never stop believing in yourself.",
+"Even if everyone else has made a compelling case for doing so."
+],
+[
+"Life is a journey, not a destination.",
+"Which is fortunate, because you've been banned from several destinations."
+],
+[
+"Experience is the best teacher.",
+"But you've somehow managed to fail the same lesson every semester."
+],
+[
+"The world is your classroom.",
+"And you're the reason the teacher drinks."
+],
+[
+"Every ending is a new beginning.",
+"Although yours usually begins with an apology."
+],
+[
+"Life is full of surprises.",
+"But your ability to disappoint has become remarkably predictable."
+],
+[
+"The greatest lessons come from failure.",
+"Which makes you one of the most educated people alive."
+],
+[
+"Don't cry over spilled milk.",
+"Although given your financial situation, perhaps you should."
+],
+[
+"A mistake is only a mistake if you don't learn from it.",
+"Which makes your entire life a rather impressive collection."
+],
+[
+"The truth will set you free.",
+"Although it may also get you fired."
+],
+[
+"Everything in moderation.",
+"Except apparently your ability to make poor choices."
+],
+[
+"Life rewards those who take initiative.",
+"Although yours has mostly resulted in additional paperwork."
+],
+[
+"You reap what you sow.",
+"Which explains why your harvest looks like a crime scene."
+],
+[
+"The grass isn't always greener on the other side.",
+"But in your case, the neighbours have a pretty convincing argument."
+],
+[
+"Never judge a book by its cover.",
+"Although the first chapter of yours isn't helping."
+],
+[
+"Life is about taking chances.",
+"Not turning every ordinary Tuesday into a liability assessment."
+],
+[
+"Honesty is the foundation of trust.",
+"Which explains why your excuses have such poor structural integrity."
+],
+[
+"What goes around comes around.",
+"And judging by your history, you should probably start running."
+],
+[
+"The apple doesn't fall far from the tree.",
+"Although your parents are desperately hoping this one rolled downhill."
+],
+[
+"Every action creates a ripple.",
+"And yours have triggered several evacuation procedures."
+],
+[
+"The truth hurts.",
+"Particularly when it's delivered by someone who's been watching you make the same mistakes for years."
+],
+[
+"A closed mouth catches no flies.",
+"And prevents an astonishing number of your usual problems."
+],
+[
+"Slow and steady wins the race.",
+"But you've somehow managed to be slow, unsteady, and disqualified."
+],
+[
+"The road less travelled leads to unexpected discoveries.",
+"And yours has led to a very concerned search party."
+],
+[
+"There's a lesson in every experience.",
+"But perhaps you could stop making everyone else attend the class."
+],
+[
+"Life doesn't come with instructions.",
+"Which is unfortunate, because you're clearly someone who needs them."
+],
+[
+"Today is the first day of the rest of your life.",
+"And somehow you've already managed to get off to a disappointing start."
+],
+[
+"There's greatness inside everyone.",
+"Yours must be exceptionally good at hiding."
+],
+[
+"You were put on this earth for a reason.",
+"Although the committee has yet to disclose what that reason was."
+],
+[
+"The world is a better place because you're in it.",
+"According to a source that has requested anonymity."
+],
+[
+"You are capable of extraordinary things.",
+"And yet you remain passionately committed to doing the bare minimum."
+],
+[
+"Your life has meaning and purpose.",
+"Even if that purpose is helping other people feel better about theirs."
+],
+[
+"You are exactly where you need to be.",
+"Which is deeply concerning, considering where you are."
+],
+[
+"Every person has something valuable to contribute.",
+"And yours appears to be an example of what happens without proper supervision."
+],
+[
+"Your existence makes a difference.",
+"Although not all differences are improvements."
+],
+[
+"You are more than your mistakes.",
+"Which is fortunate, because there's barely any room left on the list."
+],
+[
+"Your future is unwritten.",
+"But based on the previous chapters, the publisher is concerned."
+],
+[
+"You are a rare and precious gift.",
+"The kind that comes with no receipt and a strict no-return policy."
+],
+[
+"There's nobody else in the world quite like you.",
+"And for once, humanity seems to have caught a break."
+],
+[
+"You have the power to change lives.",
+"Mostly by showing people what happens when they ignore good advice."
+],
+[
+"Your journey is uniquely yours.",
+"Because nobody else would willingly take this route."
+],
+[
+"You deserve to be celebrated.",
+"Although the organisers are still struggling to identify an appropriate occasion."
+],
+[
+"You are the result of millions of years of evolution.",
+"And somehow the final product has raised questions about quality control."
+],
+[
+"Your best qualities make you special.",
+"And we're still conducting a thorough search for them."
+],
+[
+"You have the ability to inspire generations.",
+"Primarily through cautionary educational materials."
+],
+[
+"Your life is a beautiful story waiting to be told.",
+"Although the editors have suggested classifying it as a tragedy."
+],
+[
+"You were born with unlimited possibilities.",
+"And have spent your entire life systematically eliminating them."
+],
+[
+"Every breath you take is another opportunity.",
+"To disappoint people who were foolish enough to remain optimistic."
+],
+[
+"You are proof that anything is possible.",
+"Including surviving this long on questionable judgment alone."
+],
+[
+"The world hasn't seen the best of you yet.",
+"Which is either incredibly promising or a devastating indictment of your progress."
+],
+[
+"Never forget how far you've come.",
+"Because it's genuinely impressive how much time you've spent getting absolutely nowhere."
+]
+];
+
+
+const el=document.getElementById("aff");
+let last=-1;
+try{const v=localStorage.getItem("hufy-last");if(v!==null)last=parseInt(v,10);}catch(e){}
+let i;
+do{i=Math.floor(Math.random()*bank.length);}while(i===last&&bank.length>1);
+try{localStorage.setItem("hufy-last",String(i));}catch(e){}
+el.textContent=bank[i][0];
+document.getElementById("punch").textContent=bank[i][1];
+</script>
+</body>
+</html>
